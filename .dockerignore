@@ -1,0 +1,7 @@
+dist/
+node_modules/
+postgrs/
+
+
+.env/
+.vscode/
