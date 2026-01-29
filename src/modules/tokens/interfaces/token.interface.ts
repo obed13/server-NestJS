@@ -3,7 +3,7 @@ import { AuthorizationToken } from "src/common/enums";
 export interface CreateTokenInterface {
     userId: string;
     type: AuthorizationToken;
-    ttl: number;
+    ttl?: number;
 }
 
 export interface PayloadTokenInterface {
