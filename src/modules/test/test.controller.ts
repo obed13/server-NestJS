@@ -1,15 +1,17 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import * as interfaces from '../users/interfaces';
+import { EmailsService } from '../emails/emails.service';
 
 @Controller('test')
 export class TestController {
-    constructor(private readonly usersService: UsersService) { }
+    constructor(private readonly emails: EmailsService) { }
 
     @Post()
-    async test(
-        @Body() data: interfaces.CreateUserInterface
-    ) {
-        return await this.usersService.create(data);
+    async test() {
+        return await this.emails.sendEmail({
+            to: ["obekcdr@hotmail.com"],
+            subject: "hello world prueba",
+            html: "<strong>it works!</strong>",
+        });
     }
 }

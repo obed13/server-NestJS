@@ -12,11 +12,7 @@ export class TokensService {
 
     constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) { }
 
-    async generateToken({
-        userId,
-        type,
-        ttl = 900000,
-    }: CreateTokenInterface) {
+    async generateToken({ userId, type, ttl = 900000 }: CreateTokenInterface) {
         try {
             return await this.cacheManager.set(
                 this.getKey({ type, userId }),
@@ -28,11 +24,7 @@ export class TokensService {
         }
     }
 
-    async validateToken({
-        userId,
-        type,
-        token
-    }: PayloadTokenInterface) {
+    async validateToken({ userId, type, token }: PayloadTokenInterface) {
         try {
             const payload: PayloadTokenInterface | undefined = await this.cacheManager.get<PayloadTokenInterface>(
                 this.getKey({ type, userId })
@@ -48,10 +40,7 @@ export class TokensService {
         }
     }
 
-    async revokeToken({
-        userId,
-        type
-    }: RevokeTokenInterface): Promise<boolean> {
+    async revokeToken({ userId, type }: RevokeTokenInterface): Promise<boolean> {
         try {
             return await this.cacheManager.del(
                 this.getKey({ type, userId })
