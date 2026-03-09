@@ -4,27 +4,14 @@ import {
     OnModuleInit,
     OnModuleDestroy,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from 'prisma/generated/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { envs } from 'src/config';
 
 @Injectable()
-export class PrismaService
-    extends PrismaClient
-    implements OnModuleInit, OnModuleDestroy {
-    private readonly logger = new Logger('Auth - App');
-
-
-    async onModuleInit() {
-        try {
-            await this.$connect();
-            this.logger.log('Database Connected');
-        } catch (error) {
-            this.logger.error('Failed to connect to the database', error.stack);
-            throw error;
-        }
-    }
-
-    async onModuleDestroy() {
-        await this.$disconnect();
-        this.logger.log('Database Disconnected');
+export class PrismaService extends PrismaClient{ 
+    constructor() {
+        const adapter = new PrismaPg({ connectonString: envs.DATABASE_URL });
+        super({ adapter });
     }
 }
